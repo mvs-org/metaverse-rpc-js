@@ -81,6 +81,10 @@ export interface GetMemorypoolResponse {
     transactions: [Transaction]
 }
 
+export interface GetNewAccountParams extends AccountParams {
+    language?: string,
+}
+
 export interface IMvsd {
     execute<T>(method: string, params?: (string | number)[]): Observable<T>
 
@@ -140,6 +144,11 @@ export interface IMvsd {
      * Returns all transactions in memory pool
      */
     getmemorypool(): Observable<GetMemorypoolResponse>
+
+    /**
+     * Generate a new account from this wallet
+     */
+    getnewaccount(params: GetNewAccountParams): Observable<any>
 }
 
 export abstract class Mvsd implements IMvsd {
@@ -195,5 +204,11 @@ export abstract class Mvsd implements IMvsd {
 
     getmemorypool(): Observable<GetMemorypoolResponse> {
         return this.execute('getmemorypool')
+    }
+
+    getnewaccount(params: GetNewAccountParams): Observable<any> {
+        const { accountname, password, ...optionalParameters } = params
+        const parameterList = this.addOptionalParameters([accountname, password], optionalParameters)
+        return this.execute('getnewaccount', parameterList)
     }
 }
