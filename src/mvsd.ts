@@ -72,7 +72,8 @@ export interface IMvsd {
     /**
      * Get a block by its number or txid
      * 
-     * @param target txid or number
+     * @param txid? string
+     * @param number? number
      */
     getBlock(params: GetBlockParams): Observable<GetBlockResponse>
 

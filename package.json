@@ -1,6 +1,6 @@
 {
   "name": "mvsd",
-  "version": "0.0.1",
+  "version": "0.9.1",
   "description": "JavaScript library to use the Metaverse Websocket and JSON-RPC services",
   "main": "lib/index.js",
   "directories": {
@@ -34,7 +34,7 @@
     "websocket"
   ],
   "author": "Sven Mutzl",
-  "license": "AGPL-3.0",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/mvs-org/metaverse-rpc-js/issues"
   },
