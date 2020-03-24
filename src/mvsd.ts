@@ -85,6 +85,12 @@ export interface GetNewAccountParams extends AccountParams {
     language?: string,
 }
 
+export interface ImportAccountParams extends AccountParams {
+    words: Array<string>,
+    hd_index?: number,
+    language?: string,
+}
+
 export interface IMvsd {
     execute<T>(method: string, params?: (string | number)[]): Observable<T>
 
@@ -147,8 +153,24 @@ export interface IMvsd {
 
     /**
      * Generate a new account from this wallet
+     * 
+     * @param name Account name
+     * @param password Account password
+     * @param language optional - Language, options are 'en', 'es', 'ja', 'zh_Hans', 'zh_Hant' and 'any', defaults to 'en'
      */
     getnewaccount(params: GetNewAccountParams): Observable<any>
+
+    /**
+     * Import an account
+     * 
+     * @param words The set of words that that make up the mnemonic. If not specified the words are read from STDIN.
+     * @param name Account name
+     * @param password Account password
+     * @param hd_index optional - The HD index for the account
+     * @param language optional - Language, options are 'en', 'es', 'ja', 'zh_Hans', 'zh_Hant' and 'any', defaults to 'en'
+     */
+    importaccount(params: ImportAccountParams): Observable<any>                                                  
+
 }
 
 export abstract class Mvsd implements IMvsd {
@@ -161,7 +183,7 @@ export abstract class Mvsd implements IMvsd {
     }
 
     private addOptionalParameters(parameterList: any[], parameters: object) {
-        Object.entries(parameters).forEach(([parameter, value]) => parameterList.concat(['--' + parameter, value]))
+        Object.entries(parameters).forEach(([parameter, value]) => parameterList = parameterList.concat(['--' + parameter, value]))
         return parameterList
     }
 
@@ -210,5 +232,11 @@ export abstract class Mvsd implements IMvsd {
         const { accountname, password, ...optionalParameters } = params
         const parameterList = this.addOptionalParameters([accountname, password], optionalParameters)
         return this.execute('getnewaccount', parameterList)
+    }
+
+    importaccount(params: ImportAccountParams): Observable<any> {
+        const { words, ...optionalParameters } = params
+        const parameterList = this.addOptionalParameters(words, optionalParameters)
+        return this.execute('importaccount', parameterList)
     }
 }
