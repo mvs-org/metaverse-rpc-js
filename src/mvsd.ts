@@ -20,14 +20,16 @@ export interface Output {
     value: number
 }
 
+export interface Transaction {
+    hash: string
+    inputs: Array<Input>
+    lock_time: string | number
+    outputs: Array<Output>
+    version: string | number
+}
+
 export interface SendResponse {
-    transaction: {
-        hash: string
-        inputs: Array<Input>
-        lock_time: string | number
-        outputs: Array<Output>
-        version: string | number,
-    }
+    transaction: Transaction
 }
 
 export interface GetBlockParams {
@@ -75,13 +77,17 @@ export interface GetInfoResponse {
     'wallet-version' : string,
 }
 
+export interface GetMemorypoolResponse {
+    transactions: [Transaction]
+}
+
 export interface IMvsd {
     execute<T>(method: string, params?: (string | number)[]): Observable<T>
 
     /**
      * Get the current blockchain height
      */
-    getHeight(): Observable<number>
+    getheight(): Observable<number>
 
     /**
      * Get a block by its number or txid
@@ -89,7 +95,7 @@ export interface IMvsd {
      * @param txid? string
      * @param number? number
      */
-    getBlock(params: GetBlockParams): Observable<GetBlockResponse>
+    getblock(params: GetBlockParams): Observable<GetBlockResponse>
 
     /**
      * Get a block by its number or txid
@@ -126,9 +132,14 @@ export interface IMvsd {
     sendrawtx(params: SendRawTxParams): Observable<string>
 
     /**
-     * Get infirmation
+     * Get information
      */
     getinfo(): Observable<GetInfoResponse>
+
+    /**
+     * Returns all transactions in memory pool
+     */
+    getmemorypool(): Observable<GetMemorypoolResponse>
 }
 
 export abstract class Mvsd implements IMvsd {
@@ -145,11 +156,11 @@ export abstract class Mvsd implements IMvsd {
         return parameterList
     }
 
-    getHeight(): Observable<number> {
+    getheight(): Observable<number> {
         return this.execute('getheight')
     }
 
-    getBlock(params: GetBlockParams): Observable<GetBlockResponse> {
+    getblock(params: GetBlockParams): Observable<GetBlockResponse> {
         if (params.txid !== undefined) {
             return this.execute('getblock', [params.txid])
         }
@@ -180,5 +191,9 @@ export abstract class Mvsd implements IMvsd {
 
     getinfo(): Observable<GetInfoResponse> {
         return this.execute('getinfo')
+    }
+
+    getmemorypool(): Observable<GetMemorypoolResponse> {
+        return this.execute('getmemorypool')
     }
 }
