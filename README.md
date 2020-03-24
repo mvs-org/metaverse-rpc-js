@@ -7,11 +7,19 @@
   JavaScript library for the Metaverse Blockchain Websocket and JSON-RPC services
 </p>
 
+# Metaverse Websocket and JSONRPC
+
+## Setup
+
+```
+npm i mvsd
+```
+
 ## JSON-RPC
 
 Initialize the connection settings
 ```
-const { MvsdJSONRPC } = require('..')
+const { MvsdJSONRPC } = require('mvsd')
 const mvsd = new MvsdJSONRPC('http://127.0.0.1:8820/rpc/v3')
 ```
 
