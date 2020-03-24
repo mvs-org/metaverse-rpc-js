@@ -1,0 +1,92 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser example for the Metaverse Blockchain Websocket</title>
+    <script src="../../dist/mvsd.browser.js"></script>
+    <style>
+        body {
+            background-color: #3a3a3a;
+            font-family: monospace;
+        }
+
+        .label {
+            color: #b338a3;
+        }
+
+        .content, a {
+            color: #7fb52a !important;
+        }
+
+        h1 {
+            color: #7fb52a;
+            font-size: medium;
+        }
+    </style>
+</head>
+
+
+
+<body>
+    <div align="center">
+        <a href="https://mvs.org/">
+            <img width="200" src="https://raw.githubusercontent.com/mvs-org/lightwallet/master/src/assets/logo.png"
+                alt="">
+        </a>
+        <h1 class="title">
+            Browser example for the Metaverse Blockchain Websocket
+        </h1>
+    </div>
+    <div id="messages">
+    </div>
+    <script>
+        const websocket = new Mvsd.MvsdWebsocket('ws://127.0.0.1:8821/ws')
+        websocket.connect()
+        websocket.ready.subscribe(ready => {
+            if (ready) {
+                websocket.subscribeTransactions()
+                websocket.subscribeBlocks()
+                return log('websocket ready')
+            }
+        })
+
+        function log(label, content, link) {
+            var element = document.createElement('div')
+            var labelElement = document.createElement('span')
+            labelElement.className = 'label'
+            labelElement.innerText = label + ' '
+            element.appendChild(labelElement)
+            if (content) {
+                var contentElement = document.createElement('span')
+                contentElement.className = 'content'
+                if (link === undefined) {
+                    contentElement.innerText = content
+                } else {
+                    var linkElement = document.createElement('a')
+                    linkElement.href= link
+                    linkElement.innerText = content
+                    linkElement.target = '_blank'
+                    contentElement.appendChild(linkElement)
+                }
+                element.appendChild(contentElement)
+            }
+            document.getElementById('messages').appendChild(element)
+            console.log(label, content)
+        }
+
+
+        websocket.transactions.subscribe((tx) => {
+            if (tx.height > 0) {
+                log('tx confirmed', tx.hash, 'https://explorer.mvs.org/tx/'+tx.hash)
+            } else {
+                log('received unconfirmed tx', tx.hash)
+            }
+        })
+
+        websocket.blocks.subscribe((block) => log('received block', block.hash, 'https://explorer.mvs.org/blk/'+block.hash))
+
+    </script>
+</body>
+
+</html>

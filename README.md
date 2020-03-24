@@ -43,89 +43,97 @@ mvsd.sendrawtx({tx: '020000000131fb2354bb0dd453cb8a9810d6275ca733841d9cea3c15200
     .subscribe(console.log)
 ```
 
-other functions
-  tx-decode
-  validate-tx
-  getnewaccount
-  getaccount
-  deleteaccount
-  importaccount
-  changepasswd
-  getnewaddress
-  validateaddress
-  listaddresses
-  dumpkeyfile
-  importkeyfile
-  importaddress
-  shutdown
-  getinfo
-  addnode
-  getpeerinfo
-  getrandom
-  verifyrandom
-  startmining
-  stopmining
-  getmininginfo
-  getstakeinfo
-  setminingaccount
-  getwork
-  submitwork
-  getmemorypool
-  registerwitness
-  getblockheader
-  fetchheaderext
-  gettx
-  listtxs
-  popblock
-  createrawtx
-  decoderawtx
-  signrawtx
-  getpublickey
-  createmultisigtx
-  getnewmultisig
-  listmultisig
-  deletemultisig
-  signmultisigtx
-  send
-  sendmore
-  sendfrom
-  lock
-  listbalances
-  getbalance
-  getaddressetp
-  getlocked
-  validatesymbol
-  createasset
-  deletelocalasset
-  issue
-  secondaryissue
-  sendasset
-  sendmoreasset
-  sendassetfrom
-  listassets
-  getasset
-  getaccountasset
-  getaddressasset
-  burn
-  swaptoken
-  issuecert
-  transfercert
-  registermit
-  transfermit
-  listmits
-  getmit
-  registerdid
-  didchangeaddress
-  listdids
-  getdid
+### other functions
+tx-decode
+validate-tx
+getnewaccount
+getaccount
+deleteaccount
+importaccount
+changepasswd
+getnewaddress
+validateaddress
+listaddresses
+dumpkeyfile
+importkeyfile
+importaddress
+shutdown
+getinfo
+addnode
+getpeerinfo
+getrandom
+verifyrandom
+startmining
+stopmining
+getmininginfo
+getstakeinfo
+setminingaccount
+getwork
+submitwork
+getmemorypool
+registerwitness
+getblockheader
+fetchheaderext
+gettx
+listtxs
+popblock
+createrawtx
+decoderawtx
+signrawtx
+getpublickey
+createmultisigtx
+getnewmultisig
+listmultisig
+deletemultisig
+signmultisigtx
+send
+sendmore
+sendfrom
+lock
+listbalances
+getbalance
+getaddressetp
+getlocked
+validatesymbol
+createasset
+deletelocalasset
+issue
+secondaryissue
+sendasset
+sendmoreasset
+sendassetfrom
+listassets
+getasset
+getaccountasset
+getaddressasset
+burn
+swaptoken
+issuecert
+transfercert
+registermit
+transfermit
+listmits
+getmit
+registerdid
+didchangeaddress
+listdids
+getdid
 
 
 ## Websocket
 
-Initialize the connection
+Initialize the connection (NodeJS)
 ```
 const { MvsdWebsocket } = require('mvsd')
 const websocket = new MvsdWebsocket('ws://127.0.0.1:8821/ws')
+```
+
+Initialize the connection (Browser)
+```
+<script src="./dist/mvsd.browser.js"></script>
+<script>
+    const websocket = new Mvsd.MvsdWebsocket('ws://127.0.0.1:8821/ws')
+</script>
 ```
 
 Connect to server

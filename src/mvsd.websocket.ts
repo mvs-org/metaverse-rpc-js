@@ -1,4 +1,4 @@
-import WebSocket from 'ws'
+import {w3cwebsocket} from 'websocket'
 import { Subject, BehaviorSubject } from 'rxjs'
 import { take } from 'rxjs/operators'
 import { Transaction } from './interfaces/transaction.interface'
@@ -10,7 +10,7 @@ export interface Channels {
 }
 
 export class MvsdWebsocket {
-    private ws?: WebSocket
+    private ws?: w3cwebsocket
 
     ready: Subject<boolean>
     transactions: Subject<Transaction>
@@ -24,13 +24,12 @@ export class MvsdWebsocket {
         this.ready = new BehaviorSubject<boolean>(false)
     }
     connect() {
-        this.ws = new WebSocket(this.url)
-        this.ws.on('open', () => {
+        this.ws = new w3cwebsocket(this.url)
+        this.ws.onopen = () => {
             this.ready.next(true)
-        })
-        this.ws.on('message', (data) => {
-            const payload = JSON.parse(data.toString())
-
+        }
+        this.ws.onmessage = (message) => {
+            const payload = JSON.parse(message.data.toString())
             if (payload.event === 'publish') {
                 switch (payload.channel) {
                     case 'tx':
@@ -59,7 +58,7 @@ export class MvsdWebsocket {
                     this.channels.next(channels)
                 }).unsubscribe()
             }
-        })
+        }
     }
     private subscribe(channel: string, params?: object) {
         if (this.ws === undefined) {
