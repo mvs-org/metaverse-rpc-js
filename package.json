@@ -1,6 +1,6 @@
 {
   "name": "mvsd",
-  "version": "0.9.1",
+  "version": "0.9.1-3",
   "description": "JavaScript library to use the Metaverse Websocket and JSON-RPC services",
   "main": "lib/index.js",
   "directories": {
