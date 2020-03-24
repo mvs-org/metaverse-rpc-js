@@ -61,6 +61,20 @@ export interface SendRawTxParams {
     tx: string
 }
 
+export interface GetInfoResponse {
+    'database-version': string,
+    difficulty : string,
+    'hash-rate' : number,
+    height : number,
+    'is-mining' : boolean,
+    'network-assets-count' : number,
+    'peers' : number,
+    'protocol-version' : number,
+    'testnet' : boolean,
+    'wallet-account-count' : number,
+    'wallet-version' : string,
+}
+
 export interface IMvsd {
     execute<T>(method: string, params?: (string | number)[]): Observable<T>
 
@@ -110,6 +124,11 @@ export interface IMvsd {
      * @param tx base16 encoded transaction
      */
     sendrawtx(params: SendRawTxParams): Observable<string>
+
+    /**
+     * Get infirmation
+     */
+    getinfo(): Observable<GetInfoResponse>
 }
 
 export abstract class Mvsd implements IMvsd {
@@ -157,5 +176,9 @@ export abstract class Mvsd implements IMvsd {
     sendrawtx(params: SendRawTxParams): Observable<string> {
         const parameterList = this.addOptionalParameters([], params)
         return this.execute('sendrawtx', parameterList)
+    }
+
+    getinfo(): Observable<GetInfoResponse> {
+        return this.execute('getinfo')
     }
 }
