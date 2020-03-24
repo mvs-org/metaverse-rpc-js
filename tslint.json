@@ -1,0 +1,20 @@
+{
+  "rules": {
+    "no-duplicate-variable": true,
+    "no-unused-variable": [
+      true
+    ],
+    "no-unsafe-any": true,
+    "comment-format": [false,
+			"check-space",
+			"check-lowercase"
+    ],
+    "no-var-keyword": true,
+    "no-unreachable": true,
+    "trailing-comma": [true, {"multiline": "always", "singleline": "never"}],
+    "semicolon": [true, "never"]
+  },
+  "rulesDirectory": [
+    "node_modules/tslint-eslint-rules/dist/rules"
+  ]
+}

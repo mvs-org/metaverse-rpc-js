@@ -1,0 +1,42 @@
+{
+  "name": "mvsd",
+  "version": "0.0.1",
+  "description": "JavaScript library to use the Metaverse Websocket and JSON-RPC services",
+  "main": "lib/index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "dependencies": {
+    "rx-queue": "^0.8.5",
+    "rxjs": "^6.5.4",
+    "superagent": "^5.2.2",
+    "typedoc": "^0.17.3",
+    "typescript": "^3.8.3",
+    "ws": "^7.2.3"
+  },
+  "devDependencies": {
+    "@types/superagent": "^4.1.7",
+    "@types/ws": "^7.2.3",
+    "tslint-eslint-rules": "^5.4.0"
+  },
+  "scripts": {
+    "test": "echo 1",
+    "build" : "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mvs-org/metaverse-rpc-js.git"
+  },
+  "keywords": [
+    "metaverse",
+    "blockchain",
+    "rpc",
+    "websocket"
+  ],
+  "author": "Sven Mutzl",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/mvs-org/metaverse-rpc-js/issues"
+  },
+  "homepage": "https://github.com/mvs-org/metaverse-rpc-js#readme"
+}
