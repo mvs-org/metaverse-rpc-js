@@ -28,6 +28,11 @@ export class MvsdWebsocket {
         this.ws.onopen = () => {
             this.ready.next(true)
         }
+        this.ws.onclose = async () => {
+            if(await this.ready.pipe(take(1)).toPromise()) {
+                this.ready.next(false)
+            }
+        }
         this.ws.onmessage = (message) => {
             const payload = JSON.parse(message.data.toString())
             if (payload.event === 'publish') {
@@ -59,6 +64,7 @@ export class MvsdWebsocket {
                 }).unsubscribe()
             }
         }
+        return this
     }
     private subscribe(channel: string, params?: object) {
         if (this.ws === undefined) {
