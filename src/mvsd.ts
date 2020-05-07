@@ -105,7 +105,7 @@ export interface IMvsd {
      * @param txid? string
      * @param number? number
      */
-    getblock(params: GetBlockParams): Observable<GetBlockResponse>
+    getblock(params: GetBlockParams): Observable<GetBlockResponse<Transaction>>
 
     /**
      * Get a block by its number or txid
@@ -191,7 +191,7 @@ export abstract class Mvsd implements IMvsd {
         return this.execute('getheight')
     }
 
-    getblock(params: GetBlockParams): Observable<GetBlockResponse> {
+    getblock(params: GetBlockParams): Observable<GetBlockResponse<Transaction>> {
         if (params.txid !== undefined) {
             return this.execute('getblock', [params.txid])
         }
