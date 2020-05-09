@@ -33,8 +33,13 @@ export interface SendResponse {
 }
 
 export interface GetBlockParams {
-    txid?: string
+    hash?: string
     number?: number
+}
+
+export interface GetTxParams {
+    hash: string
+    jsonFormat?: boolean
 }
 
 export interface AccountParams {
@@ -100,12 +105,21 @@ export interface IMvsd {
     getheight(): Observable<number>
 
     /**
-     * Get a block by its number or txid
+     * Get a block by its number or hash
+     * 
+     * @param hash? string
+     * @param number? number
+     */
+    getblock(params: GetBlockParams): Observable<GetBlockResponse<Transaction>>
+    getblock_encoded(params: GetBlockParams): Observable<string>
+
+    /**
+     * Get a transaction by its txid
      * 
      * @param txid? string
      * @param number? number
      */
-    getblock(params: GetBlockParams): Observable<GetBlockResponse<Transaction>>
+    gettx(params: GetTxParams): Observable<Transaction>
 
     /**
      * Get a block by its number or txid
@@ -192,13 +206,27 @@ export abstract class Mvsd implements IMvsd {
     }
 
     getblock(params: GetBlockParams): Observable<GetBlockResponse<Transaction>> {
-        if (params.txid !== undefined) {
-            return this.execute('getblock', [params.txid])
+        if (params.hash !== undefined) {
+            return this.execute('getblock', [params.hash])
         }
         if (params.number !== undefined) {
             return this.execute('getblock', [params.number])
         }
         return this.execute('getblock', [])
+    }
+
+    getblock_encoded(params: GetBlockParams): Observable<string> {
+        if (params.hash !== undefined) {
+            return this.execute('getblock', [params.hash, '--json=false'])
+        }
+        if (params.number !== undefined) {
+            return this.execute('getblock', [params.number, '--json=false'])
+        }
+        return this.execute('getblock', [])
+    }
+
+    gettx(params: GetTxParams){
+        return this.execute<Transaction>('gettx', [params.hash, params.jsonFormat === false ? '--json=false' : '--json=true' ])
     }
 
     send(params: SendParams): Observable<SendResponse> {
